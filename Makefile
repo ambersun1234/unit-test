@@ -9,16 +9,13 @@ all: result
 result: mytest.o test.o
 	$(CXX) -o result $^ $(GTESTFLAGS)
 
-mytest.o: mytest.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
-
-test.o: test.cpp
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
 	rm -rf *.o *.gch
 
-test: result
+test: 
 	./result
 
-.PHONY: all clean
+.PHONY: all clean test
