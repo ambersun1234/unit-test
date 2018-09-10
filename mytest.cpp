@@ -8,6 +8,14 @@ int factorial( int input ) {
 	return input * factorial( input - 1 );
 }
 
+mystring::mystring() {
+	this->content = "";
+}
+
+mystring::mystring( const string input ) {
+	this->content = input;
+}
+
 string mystring::getContent() {
 	return this->content;
 }

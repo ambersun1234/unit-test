@@ -1,7 +1,26 @@
 #include <gtest/gtest.h>
 #include "mytest.h"
 
-using namespace std;
+template< typename itemType >
+class mytemplateTest : public ::testing::Test {
+
+};
+using itemType_test = ::testing::Types< int , double , unsigned >;
+TYPED_TEST_CASE( mytemplateTest , itemType_test );
+
+TYPED_TEST( mytemplateTest , constructor ) {
+	mytemplate< TypeParam > obj;
+	mytemplate< TypeParam > obj1( 104 );
+	EXPECT_EQ( 0 , obj.getData() );
+	EXPECT_EQ( 104 , obj1.getData() );
+}
+
+TYPED_TEST( mytemplateTest , setData ) {
+	mytemplate< TypeParam > obj;
+	EXPECT_EQ( 0 , obj.getData() );
+	obj.setData( 554 );
+	EXPECT_EQ( 554 , obj.getData() );
+}
 
 TEST( mystring , constructor ) {
 	mystring s1;
