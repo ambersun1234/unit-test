@@ -9,26 +9,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9
-      env:
-        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env:
-        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
             - g++-6
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
@@ -43,36 +23,20 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-3.9
-          packages:
-            - clang-3.9
-      env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+before_install:
+  - pip install --user cpp-coveralls
+  - eval "${MATRIX_EVAL}"
 
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-4.0
-          packages:
-            - clang-4.0
-      env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-5.0
-          packages:
-            - clang-5.0
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+install:
+  - CXXFLAGS="-fprofile-arcs -ftest-coverage" make
 
 script:
-  - make
   - make test
+
+after_success:
+  - coveralls --exclude googletest --exclude "test.cpp" --gcov-options '\-lp'
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always

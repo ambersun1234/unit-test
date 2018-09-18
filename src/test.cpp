@@ -1,6 +1,33 @@
 #include "gtest/gtest.h"
 #include "mytest.h"
 
+// template test fixure
+class mytemplateTest : public testing::Test {
+	protected:
+		virtual void SetUp() {
+			t1 = new mytemplate< int >();
+			t2 = new mytemplate< int >( 101 );
+		}
+		virtual void TearDown() {
+			delete t1;
+			delete t2;
+		}
+		mytemplate< int > *t1;
+		mytemplate< int > *t2;
+};
+
+TEST_F( mytemplateTest , constructor ) {
+	EXPECT_EQ( t1->getData() , 0 );
+	EXPECT_EQ( t2->getData() , 101 );
+}
+
+TEST_F( mytemplateTest , setData ) {
+	t1->setData( 112 );
+	EXPECT_EQ( t1->getData() , 112 );
+	t2->setData( 404 );
+	EXPECT_LT( 401 , t2->getData() );
+}
+
 // test fixure
 class mystringTest : public testing::Test {
 	protected:
@@ -11,6 +38,8 @@ class mystringTest : public testing::Test {
 		virtual void TearDown() {
 			delete s1;
 			delete s2;
+			s1 = nullptr;
+			s2 = nullptr;
 		}
 		mystring *s1;
 		mystring *s2;
