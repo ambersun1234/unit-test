@@ -1,6 +1,33 @@
 #include "gtest/gtest.h"
 #include "mytest.h"
 
+// test fixure
+class mystringTest : public testing::Test {
+	protected:
+		virtual void SetUp() {
+			s1 = new mystring();
+			s2 = new mystring( "helloworld" );
+		}
+		virtual void TearDown() {
+			delete s1;
+			delete s2;
+		}
+		mystring *s1;
+		mystring *s2;
+};
+
+TEST_F( mystringTest , constructor ) {
+	EXPECT_EQ( s1->getContent() , "" );
+	EXPECT_EQ( s2->getContent() , "helloworld" );
+}
+
+TEST_F( mystringTest , set ) {
+	s1->set();
+	EXPECT_EQ( s1->getContent() , "no need to set" );
+	s2->set();
+	EXPECT_EQ( s2->getContent() , "oworld.done" );
+}
+
 // test case name , test name
 TEST( factorial , negative ) {
 	EXPECT_EQ( 1 , factorial( -5 ) );

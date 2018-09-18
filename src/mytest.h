@@ -12,7 +12,7 @@ class mystring {
         mystring();
         mystring( const string input );
         string getContent();
-        string set();
+        void set();
 };
 
 template< typename itemType >

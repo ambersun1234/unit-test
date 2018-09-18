@@ -20,6 +20,8 @@ string mystring::getContent() {
 	return this->content;
 }
 
-string mystring::set() {
-	return this->content.length() > 4 ? this->content.substr( 4 ) + ".done" : "no need to set";
+void mystring::set() {
+	this->content = this->content.length() > 4 ?
+	this->content.substr( 4 ) + ".done" : "no need to set";
+	return;
 }
